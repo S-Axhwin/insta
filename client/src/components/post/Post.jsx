@@ -15,7 +15,7 @@ const Item = styled(Paper)(({ theme }) => ({
 const Post = () => {
   const [posts, setposts] = useState();
   async function fetchPost (){
-    const rawData = await fetch("http://192.168.123.238:5002/api/post");
+    const rawData = await fetch("http://localhost:5002/api/post");
     const data = (await rawData.json());
     setposts(data)
   } 
