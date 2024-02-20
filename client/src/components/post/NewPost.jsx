@@ -1,41 +1,38 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import { Snackbar } from '@mui/material';
-import './login.css'
+import '../login/login.css'
 
 
-
-const Login = ({setAuth}) => {
-  const [method, setMethod] = useState("login");
+const NewPost = () => {
   const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const [method, setMethod] = useState("login");
+  const [blog, setblog] = useState("");
   const [message, setMessage]   = useState("");
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
 
   const fetchApi = async () => {
-    
-   const res = await fetch(`http://192.168.214.238:5002/api/auth/login`, {
+    const details = (localStorage.getItem('userData'));
+    console.log(details);
+    const username = JSON.parse(details).username
+    console.log(username);
+    const res = await fetch(`http://192.168.214.238:5002/api/newpost`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
         username: username,
-        password: password
+        blog: blog
       })
     });
     const data = (await res.json());
     console.log(data);
 
     if(data.status){
-      localStorage.setItem("userData", JSON.stringify({
-        username: username,
-        password: password
-      }))
       setMessage(data.reason);
       setOpen(true);
-      setAuth(true);
       navigate("/post");
     }else{
       console.error(data.reason);
@@ -61,23 +58,16 @@ const Login = ({setAuth}) => {
     <>
     <div className="login-container">
       <form onSubmit={(e)=>handleSubmit(e)} className="login-form">
-        <input 
-          type='text'
-          placeholder='username'
-          value={username}
-          onChange={(e)=>setUsername(e.target.value)}
-          required/> 
         <input
-          type='password'
-          placeholder='password'
-          value={password}
-          onChange={(e)=>setPassword(e.target.value)}
+          type='text'
+          placeholder='blog'
+          value={blog}
+          onChange={(e)=>setblog(e.target.value)}
           required/>
-       
         <button
           onClick={()=>setMethod('login')}
         >
-          LOGIN
+          POST IT
         </button>
       </form>
     </div>
@@ -91,4 +81,4 @@ const Login = ({setAuth}) => {
   )
 }
 
-export default Login
+export default NewPost

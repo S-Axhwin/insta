@@ -5,17 +5,20 @@ import './login.css'
 
 
 
-const Login = ({setAuth}) => {
+const Reg = ({setAuth}) => {
   const [method, setMethod] = useState("login");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage]   = useState("");
   const [open, setOpen] = useState(false);
+  const [confpassword, setconfPassword] = useState("");
   const navigate = useNavigate();
 
   const fetchApi = async () => {
-    
-   const res = await fetch(`http://192.168.214.238:5002/api/auth/login`, {
+    console.log(username);
+    console.log(password);
+    if(confpassword===password){
+    const res = await fetch(`http://192.168.214.238:5002/api/auth/reg`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -35,13 +38,16 @@ const Login = ({setAuth}) => {
       }))
       setMessage(data.reason);
       setOpen(true);
-      setAuth(true);
       navigate("/post");
     }else{
       console.error(data.reason);
       setMessage(data.reason);
       setOpen(true)
 
+    }}
+    else{
+      setOpen(true);
+      setMessage("confirm the password")
     }
   };
 
@@ -73,11 +79,16 @@ const Login = ({setAuth}) => {
           value={password}
           onChange={(e)=>setPassword(e.target.value)}
           required/>
-       
+        <input
+          type='password'
+          placeholder='password'
+          value={confpassword}
+          onChange={(e)=>setconfPassword(e.target.value)}
+          required/>
         <button
           onClick={()=>setMethod('login')}
         >
-          LOGIN
+          SIGNUP
         </button>
       </form>
     </div>
@@ -91,4 +102,4 @@ const Login = ({setAuth}) => {
   )
 }
 
-export default Login
+export default Reg

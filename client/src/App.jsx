@@ -2,8 +2,10 @@ import React, { useState, useEffect } from 'react'
 import { Route, Routes } from 'react-router-dom'
 import Login from './components/login/Login';
 import NavBar from './components/common/Navbar';
-import Post from './components/post/Post'
-
+import Post from './components/post/Post';
+import newPosr from './components/post/NewPost';
+import NewPost from './components/post/NewPost';
+import Reg from './components/login/Signup';
 const Account = ()=>{
 
   return (
@@ -16,7 +18,8 @@ const PrivateRouter = ()=>{
 }
 
 const App = () => {
-  const [auth, setAuth] = useState(false)
+  const [auth, setAuth] = useState(false);
+  const [username, setUsername] = useState("");
   useEffect(()=>{
     const isExist = localStorage.getItem("userData");
     if(isExist){
@@ -33,12 +36,13 @@ const App = () => {
       
       {auth?
       <>
-      
       <Route path='/post' element={<Post></Post>}></Route>
       <Route path='/account' element={<Account></Account>}></Route>
+      <Route path='/newpost' element={<NewPost></NewPost>}/>
       </>
-      :null
+      :<Route path="/reg" element={<Reg></Reg>}></Route>
       }
+      
     </Routes>
     </>
   )

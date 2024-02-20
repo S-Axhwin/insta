@@ -1,7 +1,11 @@
 const mongoose = require('mongoose');
 
 const PostModel = {
-    Post: {
+    post: {
+        type: String,
+        required: true
+    },
+    username: {
         type: String,
         required: true
     },
@@ -13,4 +17,4 @@ const PostModel = {
 
 const Post = mongoose.model('Post', PostModel);
 
-module.exports = User
+module.exports = Post
